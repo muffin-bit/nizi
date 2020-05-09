@@ -15,8 +15,8 @@ var padding = 40;
 var middlePadding = (padding * 2) + 100;
 var width = $(window).width() - middlePadding - CHART_WIDTH - 30;
 
-// var episodes = ["2", "4", "6", "7 (live votes)", "9 + 10"];
-var episodes = ["2", "4"];
+var episodes = ["2", "4", "6", "7 (live votes)", "9 + 10"];
+// var episodes = ["2", "4"];
 var totalData;
 var dFirst;
 
