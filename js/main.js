@@ -8,14 +8,19 @@ var SELECT_WIDTH = 8;
 var NORMAL_OPACITY = 0.1;
 var SELECT_OPACITY = 1;
 var CHART_WIDTH = 500;
-var CUTOFF = 11; // Update cutoff
+
+// Cutoffs
+var EP10_CUTOFF = 60;
+var EP16_CUTOFF = 35;
+var EP_UNKNOWN_CUTOFF = 20;
+var FINAL_CUTOFF = 9;
 
 var height = 390;
 var padding = 40;
 var middlePadding = (padding * 2) + 100;
 var width = $(window).width() - middlePadding - CHART_WIDTH - 30;
 
-var episodes = ["2", "4", "6", "7 (live votes)", "9 + 10"];
+var episodes = ["2", "4", "6", "7 (live votes)", "9 + 10", "12", "13 (live votes)", "16"];
 // var episodes = ["2", "4"];
 var totalData;
 var dFirst;
@@ -90,7 +95,7 @@ function processData(data) {
 }
 
 function isEliminated(d) {
-    return (d.ranking == undefined || d.latestRank > CUTOFF);
+    return (d.ranking == undefined || d.latestRank > FINAL_CUTOFF);
 }
 
 // Sorts an array of objects by key
@@ -175,7 +180,7 @@ function displayProfile(d) {
 }
 
 function getImageSource(d) {
-    var res = d.name.split(" ")
+    var res = d.nameFullProfile.split(" ")
     if (res.length == 1) {
       return "pics/" + res[0] + ".jpg"
     } else {
@@ -279,7 +284,7 @@ function plotData(data) {
 // Returns the latest rank for every contestant, 1000 for those never ranked
 function getLatestRank(d) {
     var ranking = d.ranking[d.ranking.length - 1];
-    if (ranking == undefined) {
+    if (ranking == undefined || ranking == "Eliminated" || ranking == "Left the show") {
         return 1000;
     }
     return ranking.rank;
@@ -326,7 +331,7 @@ function getRankInfo(d) {
     if (d.isEliminated) {
         return "Eliminated in Episode " + episodes[d.ranking.length - 1];
     }
-    return "Wanna One Member, Rank " + d.currentRank + " " + displayRankChange(d);
+    return "Final Member, Rank " + d.currentRank + " " + displayRankChange(d);
 }
 
 function updateNotes(d) {
@@ -356,8 +361,10 @@ function getTextColor(d) {
 
 // Return rank or -1 if no rank (eliminated)
 function getRank(n) {
-    if (n == "-") {
+    if (n == "-" || n == "Eliminated") {
         return -1;
+    } else if (n == "Left the show") {
+      return -10;
     }
     return Number(n);
 }
@@ -365,8 +372,12 @@ function getRank(n) {
 // Parse line of csv to return a new row with episode, x, rank, and rankings[]
 function parseLine(row) {
     var r = {};
-    r.name = row.Name;
-    r.company = row.Company;
+    r.name = row["Name on Show"];
+    r.nameChinese = row["Chinese Name"];
+    r.nameFullProfile = row["Full Profile Name"];
+    r.company = row["Company English Only"];
+    r.companyEnglish = row["Company English Only"];
+    r.companyChinese = row["Company Chinese Only"];
     r.letter = row["Judges Evaluation 3"];
     r.specialNote = row.note;
     r.ranking = [];
