@@ -3,5 +3,3 @@
 +An interactive ranking chart for iQIYI's Youth with You Season 2 (青春有你2) made with d3.js.
 
 +This project was forked from https://p101s2.github.io/.
-
-![alt text](screenshot.png "Screenshot")
