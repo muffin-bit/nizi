@@ -396,12 +396,16 @@ function isEliminated(d) {
 function getRankInfo(d) {
     if (d.specialNote != undefined && d.specialNote != "") {
         return d.specialNote;
-    }
-    if (d.ranking.length == 0) {
+    } else if (d.ranking.length == 0) {
         return "Withdrew from show";
-    }
-    if (d.isEliminated) {
-        return "Eliminated in Episode " + episodes[d.ranking.length - 1];
+    } else if (d.isEliminated) {
+      // Special situation: they never released the rankings for
+      // those eliminated in the 60+  cutoff
+      var elimMessage = "Eliminated in Episode " + episodes[d.ranking.length - 1];
+        if (d.ranking.length == 4) {
+            elimMessage = elimMessage + "\n Note: No rankings were announced for those ranked 60+, these are inferred from Ep 6 rank"
+        }
+        return elimMessage
     }
     // return "Final Member, Rank " + d.currentRank + " " + displayRankChange(d);
     return ""
