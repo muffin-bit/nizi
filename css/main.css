@@ -24,7 +24,7 @@ h1 {
   display: inline-block;
   width: 55%;
   vertical-align: top;
-  height: 500px; }
+  height: 400px; }
 
 /* Top */
 #banner {
@@ -32,12 +32,52 @@ h1 {
   height: 200px;
   box-sizing: border-box;
   position: relative;
-  top: -25px;
+  /* top: -25px; */
+  top: 0px;
   text-align: center;
-  padding-top: 60px;
-  margin-bottom: 30px; }
-  #banner img {
-    max-height: 120px; }
+  padding-top: 20px;
+  /* margin-bottom: 30px; */
+}
+#banner img {
+  max-height: 120px; }
+
+.topnav {
+  padding-top: 10px;
+  padding-left: 40px;
+  text-align: left;;
+  overflow: hidden;
+  font-size: 18px;
+  font-weight 700;
+  text-transform: uppercase;
+}
+
+.topnav a + a {
+  margin-left: 40px;
+}
+
+.topnav a:link {
+  color: #AAA;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.topnav a:visited {
+  color: grey;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.topnav a:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.topnav a:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
 
 #mainWrapper {
   min-height: 100%;
@@ -104,7 +144,7 @@ path.ranking {
 
 /* Info */
 #profile {
-  /* margin-top: 40px; */
+  margin-top: 100px;
   margin-left: 40px;
   height: 160px; }
   #profile #picWrapper {
@@ -181,8 +221,8 @@ path.ranking {
 
 footer {
 /* #footer { */
-  /* padding: 20px 50px; */
-  margin-top: -60px;
+  padding: 40px 50px;
+  margin-top: -20px;
   font-size: 10px;
   background: #eee;
   color: #888; }
