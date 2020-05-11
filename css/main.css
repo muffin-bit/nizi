@@ -62,19 +62,19 @@ h1 {
 }
 
 .topnav a:visited {
-  color: grey;
+  color: #AAA;
   background-color: transparent;
   text-decoration: none;
 }
 
 .topnav a:hover {
-  color: red;
+  color: white;
   background-color: transparent;
   text-decoration: underline;
 }
 
-.topnav a:active {
-  color: yellow;
+.topnav #current {
+  color: red;
   background-color: transparent;
   text-decoration: underline;
 }
