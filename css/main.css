@@ -36,7 +36,7 @@ h1 {
   top: 0px;
   text-align: center;
   padding-top: 20px;
-  /* margin-bottom: 30px; */
+  margin-bottom: 40px;
 }
 #banner img {
   max-height: 120px; }
@@ -212,10 +212,14 @@ path.ranking {
       color: black; }
   #top #latestRank, #top #letter, #top #rankChange, #top .smWidth {
     width: 20px; }
+  #top #rankChange, #top .deltaWidth {
+    width: 30px; }
   #top #rankChange, #top .rankWidth {
-    width: 40px; }
+    padding: 5px 0px 5px 20px;
+    width: 20px;
+    text-align: right;}
   #top #name, #top .nameWidth {
-    width: 100px; }
+    width: 140px; }
   #top #company, #top .companyWidth {
     width: 150px; }
 

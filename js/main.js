@@ -137,12 +137,12 @@ function showChart(key, asc) {
             }
         })
         .html(function(d) {
-            var letter = '<div class="letter" style="background: ' + getLetterGradeBackground(d) + '; color: ' + getLetterGradeTextColor(d) + '">' + d.letter + '</div>';
+            // var letter = '<div class="letter" style="background: ' + getLetterGradeBackground(d) + '; color: ' + getLetterGradeTextColor(d) + '">' + d.letter + '</div>';
             var rank = d.latestRank;
             if (rank == 1000) {
                 rank = "-";
             }
-            return td(rank, "smWidth") + td(d.name, "nameWidth") + td(d.companyEnglish, "companyWidth") + td(letter, "smWidth") + td(displayRankChange(d), "rankWidth");
+            return td(rank, "rankWidth") + td(displayRankChange(d), "deltaWidth") + td(d.name, "nameWidth") + td(d.s1CubesObtained, "companyWidth") + td(d.s2CubesObtained, "smWidth");
         })
         .on("mouseover", function(d) {
             selectLine(d, "#line" + d.latestRank);
