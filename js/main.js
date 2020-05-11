@@ -24,7 +24,7 @@ var padding = 40;
 var middlePadding = (padding * 2) + 100;
 var width = $(window).width() - middlePadding - CHART_WIDTH - 30;
 
-var episodes = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"];
+var episodes = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"];
 var totalData;
 var dFirst;
 
@@ -93,7 +93,7 @@ function setXAxis() {
     episodes.forEach(function (episode, i) {
         // Add episode label
         plot.append("text")
-            .text("Day " + episode)
+            .text("D." + episode)
             .attr("x", scaleX(i))
             .attr("y", -20)
             .attr("class", "episodeLabel smallCaps");
