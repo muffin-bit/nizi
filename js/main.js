@@ -19,13 +19,12 @@ var CHART_WIDTH = 500;
 // var EP_UNKNOWN_CUTOFF = 20;
 var FINAL_CUTOFF = 35;
 
-var height = 500; // Make sure to update this in css too?
+var height = 400; // Make sure to update this in css too?
 var padding = 40;
 var middlePadding = (padding * 2) + 100;
 var width = $(window).width() - middlePadding - CHART_WIDTH - 30;
 
-var episodes = ["2", "4", "6", "9 + 10", "12", "16"];
-// var episodes = ["2", "4"];
+var episodes = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"];
 var totalData;
 var dFirst;
 
@@ -52,7 +51,7 @@ var svg = d3.select("#plot").append("svg")
     .attr("width", width + padding * 2);
 
 var scaleX = d3.scaleLinear().domain([0, episodes.length - 1]).range([0, width]);
-var scaleY = d3.scaleLinear().domain([0, 108]).range([0, height]);
+var scaleY = d3.scaleLinear().domain([0, 14]).range([0, height]);
 var plot = svg.append("g").attr("transform", "translate(" + padding + "," + padding + ")");
 var pathGenerator = d3.line()
     .x(function (d) { return scaleX(d.x); })
@@ -62,7 +61,7 @@ var pathGenerator = d3.line()
 setXAxis();
 
 // Get data
-d3.csv("youthwithyous2.csv", parseLine, function (err, data) {
+d3.csv("nizi.csv", parseLine, function (err, data) {
     totalData = processData(data);
     plotData(data);
     selectLine(dFirst, "#line1");
@@ -94,7 +93,7 @@ function setXAxis() {
     episodes.forEach(function (episode, i) {
         // Add episode label
         plot.append("text")
-            .text("Ep " + episode)
+            .text("Day " + episode)
             .attr("x", scaleX(i))
             .attr("y", -20)
             .attr("class", "episodeLabel smallCaps");
@@ -236,6 +235,8 @@ function processData(data) {
         d.currentRank = getCurrentRank(d);
         d.isEliminated = isEliminated(d);
         d.rankChange = getRankChange(d);
+        d.s1CubesObtained = getS1CubesObtained(d);
+        d.s2CubesObtained = getS2CubesObtained(d);
     })
     return data;
 }
@@ -244,17 +245,28 @@ function processData(data) {
 function parseLine(row) {
     var r = {};
     r.name = row["Name on Show"];
-    r.nameChinese = row["Chinese Name"];
-    r.nameFullProfile = row["Full Profile Name"];
-    r.company = row["Company"];
-    r.companyEnglish = row["Company English"];
-    r.companyChinese = row["Company Chinese"];
-    r.letter = row["Judges Evaluation 3"];
+    r.nameJapanese = row["Japanese Name"];
+    r.letter = "A"
     r.specialNote = row.note;
     r.ranking = [];
 
+    // S1 Cubes
+    r.s1Cubes = {};
+    r.s1Cubes["Dance"] = row["S1 Dance Cube"] == "Y"
+    r.s1Cubes["Vocal"] = row["S1 Vocal Cube"] == "Y";
+    r.s1Cubes["Personality"] = row["S1 Personality Cube"] == "Y";
+    r.s1Cubes["Star"] = row["S1 Star Cube"] == "Y";
+
+    // S2 Cubes
+    r.s2SNTs = {};
+    r.s2SNTs["Round 1"] = row["S2 SNT 1"] == "Y";
+    r.s2SNTs["Round 2"] = row["S2 SNT 2"] == "Y";
+    r.s2SNTs["Round 3"] = row["S2 SNT 3"] == "Y";
+    r.s2SNTs["Round 4"] = row["S2 SNT 4"] == "Y";
+
+    // Ranking by day
     episodes.forEach(function(episode, i) {
-        var rank = getRank(row["Ranking Ep " + episode]);
+        var rank = getRank(row["Voting Day " + episode]);
         if (rank > 0) {
             var o = {};
             o.episode = episode;
@@ -307,7 +319,7 @@ function displayProfile(d) {
         .text(d.letter)
         .css("background", getLetterGradeBackground(d))
         .css("color", getLetterGradeTextColor(d));
-    $("#infoCompany").text(getFullCompanyInfo(d));
+    // $("#infoCompany").text(getFullCompanyInfo(d));
     $("#infoRank").html(getRankInfo(d));
 }
 
@@ -319,31 +331,30 @@ function displayProfile(d) {
 
 function getFullNameInfo(d) {
   var fullName = d.nameFullProfile;
-  if (d.nameChinese) {
-    fullName = fullName + " (" + d.nameChinese + ")";
+  if (d.nameJapanese) {
+    fullName = fullName + " (" + d.nameJapanese + ")";
   }
   return fullName;
 }
 
-function getFullCompanyInfo(d) {
-  var companyName = d.companyEnglish;
-  if (d.companyChinese) {
-    companyName = companyName + " (" + d.companyChinese + ")";
-  }
-  return companyName;
+function getS1CubesObtained(d) {
+  var cubesObtained = 0;
+  Object.values(d.s1Cubes).forEach(obtained => obtained ? cubesObtained++ : cubesObtained );
+  return cubesObtained;
+}
+
+function getS2CubesObtained(d) {
+  var cubesObtained = 0;
+  Object.values(d.s2SNTs).forEach(obtained => obtained ? cubesObtained++ : cubesObtained );
+  return cubesObtained;
 }
 
 function getImageSource(d) {
-    var res = d.nameFullProfile.split(" ")
-    if (res.length == 1) {
-      return "pics/" + res[0] + ".jpg"
-    } else {
-      return "pics/" + res[0] + "-" + res[1] + ".jpg"
-    }
+    return "pics/" + d.name + ".jpg";
 }
 
 function getLowestRank(data) {
-    var min = 100;
+    var min = 13;
     data.forEach(function(d) {
         d.ranking.forEach(function(d2) {
             if (d2 < min) {
@@ -402,9 +413,6 @@ function getRankInfo(d) {
       // Special situation: they never released the rankings for
       // those eliminated in the 60+  cutoff
       var elimMessage = "Eliminated in Episode " + episodes[d.ranking.length - 1];
-        if (d.ranking.length == 4) {
-            elimMessage = elimMessage + "\n Note: No rankings were announced for those ranked 60+, these are inferred from Ep 6 rank"
-        }
         return elimMessage
     }
     // return "Final Member, Rank " + d.currentRank + " " + displayRankChange(d);
