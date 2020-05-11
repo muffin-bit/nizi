@@ -142,7 +142,7 @@ function showChart(key, asc) {
             if (rank == 1000) {
                 rank = "-";
             }
-            return td(rank, "rankWidth") + td(displayRankChange(d), "deltaWidth") + td(d.name, "nameWidth") + td(d.s1CubesObtained, "companyWidth") + td(d.s2CubesObtained, "smWidth");
+            return td(rank, "rankWidth") + td(displayRankChange(d), "deltaWidth") + td(d.name, "nameWidth") + td(d.s1CubesObtained, "companyWidth") + td(d.s2CubesObtained, "letterWidth");
         })
         .on("mouseover", function(d) {
             selectLine(d, "#line" + d.latestRank);
@@ -314,7 +314,7 @@ function updateNotes(d) {
 function displayProfile(d) {
     $("#pic").attr("src", getImageSource(d));
     $("#infoName").text(d.name);
-    $("#infoFullName").text(getFullNameInfo(d));
+    $("#infoNameJapanese").text(d.nameJapanese);
     $("#infoLetter")
         .text(d.letter)
         .css("background", getLetterGradeBackground(d))
@@ -329,24 +329,16 @@ function displayProfile(d) {
 //   HELPERS
 //
 
-function getFullNameInfo(d) {
-  var fullName = d.nameFullProfile;
-  if (d.nameJapanese) {
-    fullName = fullName + " (" + d.nameJapanese + ")";
-  }
-  return fullName;
-}
-
 function getS1CubesObtained(d) {
   var cubesObtained = 0;
   Object.values(d.s1Cubes).forEach(obtained => obtained ? cubesObtained++ : cubesObtained );
-  return cubesObtained;
+  return cubesObtained + " / 4";
 }
 
 function getS2CubesObtained(d) {
   var cubesObtained = 0;
   Object.values(d.s2SNTs).forEach(obtained => obtained ? cubesObtained++ : cubesObtained );
-  return cubesObtained;
+  return cubesObtained + " / 4";
 }
 
 function getImageSource(d) {

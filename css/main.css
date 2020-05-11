@@ -33,13 +33,12 @@ h1 {
   box-sizing: border-box;
   position: relative;
   /* top: -25px; */
-  top: 0px;
+  /* top: 0px; */
   text-align: center;
   padding-top: 20px;
-  margin-bottom: 40px;
-}
-#banner img {
-  max-height: 120px; }
+  margin-bottom: 40px; }
+  #banner img {
+    max-height: 120px; }
 
 .topnav {
   padding-top: 10px;
@@ -48,36 +47,30 @@ h1 {
   overflow: hidden;
   font-size: 18px;
   font-weight 700;
-  text-transform: uppercase;
-}
+  text-transform: uppercase;}
 
-.topnav a + a {
-  margin-left: 40px;
-}
+  .topnav a + a {
+    margin-left: 40px; }
 
-.topnav a:link {
-  color: #AAA;
-  background-color: transparent;
-  text-decoration: none;
-}
+  .topnav a:link {
+    color: #AAA;
+    background-color: transparent;
+    text-decoration: none; }
 
-.topnav a:visited {
-  color: #AAA;
-  background-color: transparent;
-  text-decoration: none;
-}
+  .topnav a:visited {
+    color: #AAA;
+    background-color: transparent;
+    text-decoration: none; }
 
-.topnav a:hover {
-  color: white;
-  background-color: transparent;
-  text-decoration: underline;
-}
+  .topnav a:hover {
+    color: white;
+    background-color: transparent;
+    text-decoration: underline; }
 
-.topnav #current {
-  color: red;
-  background-color: transparent;
-  text-decoration: underline;
-}
+  .topnav #current {
+    color: red;
+    background-color: transparent;
+    text-decoration: underline; }
 
 #mainWrapper {
   min-height: 100%;
@@ -157,7 +150,7 @@ path.ranking {
     vertical-align: top;
     margin-left: 40px;
     padding-top: 40px; }
-    #profile #textWrapper #infoName {
+    #profile #textWrapper #infoName, #profile #textWrapper #infoNameJapanese {
       font-size: 20px;
       font-weight: 700; }
     #profile #textWrapper #infoLetter {
@@ -191,10 +184,12 @@ path.ranking {
   border-collapse: collapse;
   table-layout: fixed;
   width: 100%;
+  text-align: center;
   font-size: 13px; }
   #top .selectedSort {
     color: #000; }
   #top #topBody tr {
+    height: 40px;
     cursor: pointer; }
     #top #topBody tr:hover {
       background: #e6e6e6 !important; }
@@ -205,23 +200,22 @@ path.ranking {
     border-bottom: 1px solid #ccc; }
   #top th {
     cursor: pointer;
-    text-align: left;
+    /* text-align: center; */
     border-bottom: 2px solid #ccc;
-    padding: 10px 15px !important; }
+    padding: 5px 15px; }
     #top th:hover {
       color: black; }
-  #top #latestRank, #top #letter, #top #rankChange, #top .smWidth {
-    width: 20px; }
+  /* #top .smWidth {
+    width: 20px; } */
   #top #rankChange, #top .deltaWidth {
-    width: 30px; }
-  #top #rankChange, #top .rankWidth {
-    padding: 5px 0px 5px 20px;
+    width: 35px; }
+  #top #latestRank, #top .rankWidth {
     width: 20px;
     text-align: right;}
   #top #name, #top .nameWidth {
-    width: 140px; }
-  #top #company, #top .companyWidth {
-    width: 150px; }
+    width: 180px; }
+  #top #letter, #top .letterWidth, #top #company, #top .companyWidth {
+    width: 60px; }
 
 footer {
 /* #footer { */
